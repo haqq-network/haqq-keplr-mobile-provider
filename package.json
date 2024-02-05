@@ -1,0 +1,28 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "git": "https://github.com/haqq-network/haqq-keplr-mobile-provider.git",
+    "version": "0.0.1",
+    "private": false,
+    "main": "dist/index.js",
+    "scripts": {
+        "build": "webpack",
+        "format": "prettier --ignore-path .gitignore -w .",
+        "lint": "eslint --ignore-path .gitignore ./**/*.ts"
+    },
+    "licence": "MIT",
+    "engine": {
+        "npm": ">=8.0.0",
+        "node": ">=16.0.0"
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "@types/node": "^16",
+        "@typescript-eslint/eslint-plugin": "^5.27.0",
+        "@typescript-eslint/parser": "^5.27.0",
+        "eslint": "^8.19.0",
+        "eslint-config-prettier": "^8.5.0",
+        "eslint-plugin-prettier": "^4.0.0",
+        "prettier": "^2.7.1",
+        "typescript": "^5"
+    }
+}
