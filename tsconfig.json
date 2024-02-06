@@ -8,8 +8,10 @@
         "esModuleInterop": true,
         "exactOptionalPropertyTypes": true,
         "forceConsistentCasingInFileNames": true,
+        "resolveJsonModule": true,
         "lib": [
-            "ESNext"
+            "ESNext",
+            "dom"
         ],
         "module": "commonjs",
         "noFallthroughCasesInSwitch": true,
@@ -24,7 +26,8 @@
         "removeComments": false,
         "skipLibCheck": true,
         "strict": true,
-        "target": "ESNext"
+        "target": "ESNext",
+        "moduleResolution": "node"
     },
     "exclude": [
         "dist",

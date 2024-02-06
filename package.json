@@ -3,6 +3,7 @@
     "git": "https://github.com/haqq-network/haqq-keplr-mobile-provider.git",
     "version": "0.0.1",
     "private": false,
+    "author": "igroza",
     "main": "dist/index.js",
     "scripts": {
         "build": "webpack",
@@ -14,15 +15,22 @@
         "npm": ">=8.0.0",
         "node": ">=16.0.0"
     },
-    "dependencies": {},
+    "dependencies": {
+        "@keplr-wallet/provider": "0.12.66",
+        "@keplr-wallet/router": "0.12.66"
+    },
     "devDependencies": {
         "@types/node": "^16",
         "@typescript-eslint/eslint-plugin": "^5.27.0",
         "@typescript-eslint/parser": "^5.27.0",
+        "esbuild-loader": "^4.0.3",
         "eslint": "^8.19.0",
         "eslint-config-prettier": "^8.5.0",
         "eslint-plugin-prettier": "^4.0.0",
         "prettier": "^2.7.1",
-        "typescript": "^5"
+        "ts-loader": "^9.5.1",
+        "typescript": "^5",
+        "webpack": "^5.90.1",
+        "webpack-cli": "^5.1.4"
     }
 }
