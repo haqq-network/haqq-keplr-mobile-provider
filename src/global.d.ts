@@ -5,4 +5,5 @@ declare interface ReactNativeWebView {
 declare interface Window {
     keplr: import('@keplr-wallet/provider').Keplr;
     ReactNativeWebView: ReactNativeWebView;
+    __HAQQ_KEPLR_DEV__: boolean;
 };

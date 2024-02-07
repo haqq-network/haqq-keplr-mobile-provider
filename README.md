@@ -1,8 +1,8 @@
-# Haqq-Keplr Mobile Provider
+# Haqq keplr mobile provider
 
 Keplr provider for injecting into React Native WebView component.
 
-## How to Inject Keplr Provider Script into React Native WebView Extension
+## How to Inject Keplr Provider Script into React Native WebView component
 
 1. **Build the Script**
 
@@ -17,7 +17,7 @@ Keplr provider for injecting into React Native WebView component.
 
     For Android, copy the bundle file from `dist/keplr-mobile-provider.js` to the native app assets `android/app/src/main/assets/custom/keplr-mobile-provider.js`
     
-    For iOS, import the file from Xcode to create a link.
+    For iOS, copy to `ios` folder in your react-native project and then import the file from Xcode to create a link.
 
 1. **Load the Script Function**
 
@@ -78,13 +78,15 @@ Keplr provider for injecting into React Native WebView component.
 
       const injectedJSBeforeContentLoaded = useMemo(() => `
         function init() {
-          if (window?.keplr?.isHaqqWallet) {
+          if (window?.keplr?.injected) {
             return;
           }
           ${keplrProviderScript}
           console.log('Keplr loaded:', !!window.keplr);
           if (window.keplr) {
-            window.keplr.isHaqqWallet = true;
+            /* define window.__HAQQ_KEPLR_DEV__ to enable debug logs */
+            window.__HAQQ_KEPLR_DEV__ = ${__DEV__};
+            window.keplr.injected = true;
           }
         };
         ${
@@ -101,36 +103,50 @@ Keplr provider for injecting into React Native WebView component.
 
         const { name, origin, data } = JSON.parse(nativeEvent.data) ?? {};
 
-        if (name !== 'keplr') {
+        if (name !== 'haqq-keplr-provider') {
           return;
         }
 
         console.log({ name, origin, data });
 
         const response = {
-          id: data.id,
-          type: 'proxy-request-response',
-          result: {}
+          name,
+          origin,
+          data: {
+            jsonrpc: '2.0',
+            id: data.id,
+            error: undefined,
+            result: undefined
+          }
         };
 
         // Implement Keplr specific features
         // Reference: https://github.com/chainapsis/keplr-wallet/blob/master/docs/api/README.md#keplr-specific-features
         switch (data.method) {
+          case: 'enable': {
+            const chains: string[] = data.params;
+            console.log('chains', chains);
+            response.data.result = true;
+          }
           case 'getKey':
-            response.result = {
-              return: {
-                name: 'Haqq Dev Test',
-                algo: 'ethsecp256k1',
-                pubKey: '__uint8array__0232c1a0e991adad7ba1c2faff4ade41506a499e34c89ea2aa2a384ac65aafbea2',
-                address: '__uint8array__7ee0375a10acc7d0e3cdf1c21c9409be7a9dff7b',
-                bech32Address: 'haqq10msrwkss4nrapc7d78ppe9qfheafmlmmrtgqvq',
-                isNanoLedger: false,
-                isKeystone: false,
-              }
+            response.data.result = {
+              name: 'Haqq Dev Test',
+              algo: 'ethsecp256k1',
+              pubKey: '__uint8array__0232c1a0e991adad7ba1c2faff4ade41506a499e34c89ea2aa2a384ac65aafbea2',
+              address: '__uint8array__7ee0375a10acc7d0e3cdf1c21c9409be7a9dff7b',
+              bech32Address: 'haqq10msrwkss4nrapc7d78ppe9qfheafmlmmrtgqvq',
+              isNanoLedger: false,
+              isKeystone: false,
+            };
+            break;
+          case 'signAmino': 
+            response.data.error = {
+              code: 5000,
+              message: 'User rejected',
             };
             break;
           default:
-            response.result.error = `${data.method} not implemented.`;
+            response.data.error = `${data.method} not implemented.`;
             break;
         }
 
